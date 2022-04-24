@@ -6,7 +6,105 @@
         xmlns:local="clr-namespace:JoshsDSP.WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Border Padding="10 10 10 10">
+        
+        <!--Main window grid-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="35"/>
+            </Grid.RowDefinitions>
+            
+            <!--Available Module List Group-->
+            <Border Grid.Column="0" Grid.Row="0" Padding="2">
+                <GroupBox Header="Available Modules">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="25"/>
+                        </Grid.RowDefinitions>
+                        
+                        <!-- Available Module Listbox -->
+                        <ListBox Grid.Row="0" Margin="2">
 
-    </Grid>
+                        </ListBox>
+                        
+                        <!-- Button to include module? Or should we put that on the listboxitem? -->
+                        <Button Grid.Row="1" Content="-->" Margin="2" />
+
+                    </Grid>
+                </GroupBox>
+            </Border>
+            
+            <!-- Current Module List Group -->
+            <Border Grid.Column="1" Grid.Row="0" Padding="2">
+                <GroupBox Header="Current Modules">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Current Module Listbox -->
+                        <ListBox Grid.Row="0" Margin="2">
+
+                        </ListBox>
+                        
+                        <!-- Buttons to reorder modules -->
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button Grid.Column="0" Content="Move Up" Margin="2"/>
+                            <Button Grid.Column="1" Content="Move Down" Margin="2"/>
+
+                        </Grid>
+                        
+                        <!-- Button to remove module? Or should we put that on the listboxitem? -->
+                        <Button Grid.Row="2" Content="&lt;--" Margin="2" />
+
+                    </Grid>
+                </GroupBox>
+            </Border>
+
+            <!-- Module Settings -->
+            <Border Grid.Column="2" Grid.Row="0" Padding="2">
+                <GroupBox Header="Module Settings">
+                    <ListBox Margin="2">
+                        
+                    </ListBox>
+                </GroupBox>
+            </Border>
+            
+            <!-- Playbar -->
+            <Border Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Padding="4">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="75"/>
+                        <ColumnDefinition Width="75"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="75"/>
+                        <ColumnDefinition Width="75"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Content="Save" Margin="2"/>
+                    <Button Grid.Column="1" Content="Load" Margin="2"/>
+                    <Slider Grid.Column="2" Margin="4"/>
+                    <Button Grid.Column="3" Content="Play/Pause" Margin="2"/>
+                    <Button Grid.Column="4" Content="Stop" Margin="2"/>
+
+                </Grid>
+            </Border>
+            
+            
+        </Grid>
+    </Border>
 </Window>
