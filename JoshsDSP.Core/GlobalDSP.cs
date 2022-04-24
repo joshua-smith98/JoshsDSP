@@ -6,7 +6,7 @@ namespace JoshsDSP.Core
 {
     public static class GlobalDSP
     {
-        static DirectSoundOut _outputDevice;
+        static WaveOut _outputDevice;
         static AudioFileReader _audioFileReader;
 
         public static bool PlayFile(string dir)
@@ -16,7 +16,7 @@ namespace JoshsDSP.Core
             _audioFileReader?.Dispose();
             _audioFileReader = new AudioFileReader(dir);
             _outputDevice?.Dispose();
-            _outputDevice = new DirectSoundOut();
+            _outputDevice = new WaveOut();
             _outputDevice.Init(_audioFileReader);
             _outputDevice.Play();
 
