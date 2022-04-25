@@ -28,16 +28,10 @@ string[] getArgs(string cmd)
 }
 
 /// <summary>
-/// Parses a command string and returns the first argument
-/// </summary>
-string getFirstArg(string cmd) => cmd.Split(' ')[0];
-
-/// <summary>
 /// Parses a command string and returns the remainder of the string, staring from an argument index.
 /// </summary>
-string getLastArgFrom(string cmd, int index)
+string getRemainderFrom(string[] args, int index)
 {
-    string[] args = getArgs(cmd);
     string[] lastArgs = new string[args.Length - index];
 
     for (int i = 0; i < lastArgs.Length; i++) lastArgs[i] = args[index + i];
@@ -51,6 +45,7 @@ string getLastArgFrom(string cmd, int index)
 
 bool IsRunning = true;
 string? cmd;
+string dir = Directory.GetCurrentDirectory();
 
 while (IsRunning)
 {
@@ -60,14 +55,14 @@ while (IsRunning)
     //Ignore command if null (should never be true) or if it is empty
     if (cmd is null || cmd == string.Empty) continue;
 
-    string firstArg = getFirstArg(cmd).ToLower(); //commands are not case sensitive
+    string[] cmdArgs = getArgs(cmd);
 
     //TBI (eventually): an actual command system; this current one is really basic
-    switch (firstArg)
+    switch (cmdArgs[0])
     {
         case "play":
             {
-                if (!GlobalDSP.PlayFile(getLastArgFrom(cmd, 1)))
+                if (!GlobalDSP.PlayFile(getRemainderFrom(cmdArgs, 1)))
                     SysConsole.WriteLine("Failed to play file.");
                 break;
             }
