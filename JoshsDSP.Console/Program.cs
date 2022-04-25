@@ -60,6 +60,54 @@ while (IsRunning)
     //TBI (eventually): an actual command system; this current one is really basic
     switch (cmdArgs[0])
     {
+        case "get":
+            {
+                if (cmdArgs.Length < 2)
+                {
+                    SysConsole.WriteLine("'get' expects a subcommand.");
+                    break;
+                }
+
+                switch (cmdArgs[1])
+                {
+                    case "position":
+                        {
+                            if (!GlobalDSP.IsPlaying)
+                                SysConsole.WriteLine("No file is currently playing.");
+                            else
+                                SysConsole.WriteLine(GlobalDSP.Position);
+                            break;
+                        }
+                    default:
+                        {
+                            SysConsole.WriteLine("Subcommand not recognised.");
+                            break;
+                        }
+                }
+                
+                break;
+            }
+        case "set":
+            {
+                if (cmdArgs.Length < 3)
+                    SysConsole.WriteLine("'set' expects a subcommand and a parameter.");
+
+                switch (cmdArgs[1])
+                {
+                    case "position":
+                        {
+                            GlobalDSP.Position = Convert.ToSingle(cmdArgs[2]);
+                            break;
+                        }
+                    default:
+                        {
+                            SysConsole.WriteLine("Subcommand not recognised.");
+                            break;
+                        }
+                }
+
+                break;
+            }
         case "play":
             {
                 if (!GlobalDSP.PlayFile(getRemainderFrom(cmdArgs, 1)))
