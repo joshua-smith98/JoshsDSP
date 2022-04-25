@@ -6,14 +6,18 @@ namespace JoshsDSP.Core
 {
     public static class GlobalDSP
     {
-        static WaveOut _outputDevice;
-        static AudioFileReader _audioFileReader;
+        static WaveOut? _outputDevice;
+        static AudioFileReader? _audioFileReader;
 
         public static bool IsPlaying => _outputDevice is not null ? _outputDevice.PlaybackState == PlaybackState.Playing : false;
         public static float Position
         {
             get => _audioFileReader is not null ? (float)_audioFileReader.Position / _audioFileReader.Length : 0;
-            set => _audioFileReader.Position = (long)(value * _audioFileReader.Length);
+            set
+            {
+                if (_audioFileReader is not null)
+                    _audioFileReader.Position = (long)(value * _audioFileReader.Length);
+            }
         }
 
         public static bool PlayFile(string dir)
