@@ -18,7 +18,8 @@ string[] getArgs(string cmd)
     {
         if (arg.Contains('\"')) isInQuotes = !isInQuotes;
 
-        if (cmdArgs.Count <= argCounter) cmdArgs.Add(arg.ToLower()); //Commands are not case sensitive
+        //if (cmdArgs.Count <= argCounter) cmdArgs.Add(arg.ToLower()); //Commands are not case sensitive
+        if (cmdArgs.Count <= argCounter) cmdArgs.Add(arg); //Nevermind - we need commands to be case sensitive so the DSP names make sense
         else cmdArgs[argCounter] += $" {arg}";
 
         if (!isInQuotes) argCounter++;
@@ -91,20 +92,20 @@ while (IsRunning)
             {
                 if (cmdArgs.Length < 3)
                     SysConsole.WriteLine("'set' expects a subcommand and a parameter.");
-
-                switch (cmdArgs[1])
-                {
-                    case "position":
-                        {
-                            GlobalDSP.Position = Convert.ToSingle(cmdArgs[2]);
-                            break;
-                        }
-                    default:
-                        {
-                            SysConsole.WriteLine("Subcommand not recognised.");
-                            break;
-                        }
-                }
+                else
+                    switch (cmdArgs[1])
+                    {
+                        case "position":
+                            {
+                                GlobalDSP.Position = Convert.ToSingle(cmdArgs[2]);
+                                break;
+                            }
+                        default:
+                            {
+                                SysConsole.WriteLine("Subcommand not recognised.");
+                                break;
+                            }
+                    }
 
                 break;
             }
@@ -112,6 +113,28 @@ while (IsRunning)
             {
                 if (!GlobalDSP.PlayFile(getRemainderFrom(cmdArgs, 1)))
                     SysConsole.WriteLine("Failed to play file.");
+                break;
+            }
+        case "listen":
+            {
+                if (cmdArgs.Length < 3)
+                    SysConsole.WriteLine("'listen' requires a valid DSP and a path.");
+                else
+                    switch (cmdArgs[1])
+                    {
+                        case "TestDSP":
+                            {
+                                if (!GlobalDSP.ListenFile(getRemainderFrom(cmdArgs, 2), new TestDSP()))
+                                    SysConsole.WriteLine("Failed to load file.");
+                                break;
+                            }
+                        default:
+                            {
+                                SysConsole.WriteLine($"'{cmdArgs[1]}' is not a valid DSP.");
+                                break;
+                            }
+                    }
+                
                 break;
             }
         case "stop":

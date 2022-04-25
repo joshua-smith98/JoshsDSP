@@ -4,13 +4,15 @@ namespace JoshsDSP.Core
 {
     public abstract class BaseDSP : ISampleProvider
     {
-        protected ISampleProvider _sourceProvider;
+        protected ISampleProvider? _sourceProvider;
         
-        protected float[] _currentSamples;
+        protected float[]? _currentSamples;
 
-        public WaveFormat WaveFormat => _sourceProvider.WaveFormat;
+        public WaveFormat WaveFormat => _sourceProvider is not null ? _sourceProvider.WaveFormat : null; //Visual Studio complains here that _sourceProvider might be null - very unlikely so imma just leave that.
 
-        public BaseDSP(ISampleProvider source)
+        protected BaseDSP() { }
+
+        public void Init(ISampleProvider source)
         {
             _sourceProvider = source;
             _currentSamples = new float[WaveFormat.Channels];
@@ -18,6 +20,9 @@ namespace JoshsDSP.Core
 
         public int Read(float[] buffer, int offset, int count)
         {
+            //...but we do want to do a null check here, just in case.
+            if (_sourceProvider is null) return 0; //Instinct is to return -1, but if we return 0 then anything reading will just think this is empty; which is far better than the flurry of errors that returning -1 is bound to set off.
+            
             int numSamples = _sourceProvider.Read(buffer, offset, count);
 
             for (int i = offset; i < numSamples;  i += WaveFormat.Channels)
