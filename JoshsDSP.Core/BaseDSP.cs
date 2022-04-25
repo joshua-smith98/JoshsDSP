@@ -4,6 +4,8 @@ namespace JoshsDSP.Core
 {
     public abstract class BaseDSP : ISampleProvider
     {
+        protected long _samplesCounter = 0;
+        
         protected ISampleProvider? _sourceProvider;
         
         protected float[]? _currentSamples;
@@ -27,6 +29,8 @@ namespace JoshsDSP.Core
 
             for (int i = offset; i < numSamples;  i += WaveFormat.Channels)
             {
+                _samplesCounter++;
+                
                 for (int channel = 0; channel < WaveFormat.Channels; channel++)
                 {
                     _currentSamples[channel] = buffer[i + channel];
