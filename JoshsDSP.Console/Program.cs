@@ -18,7 +18,7 @@ string[] getArgs(string cmd)
     {
         if (arg.Contains('\"')) isInQuotes = !isInQuotes;
 
-        if (cmdArgs.Count <= argCounter) cmdArgs.Add(arg);
+        if (cmdArgs.Count <= argCounter) cmdArgs.Add(arg.ToLower()); //Commands are not case sensitive
         else cmdArgs[argCounter] += $" {arg}";
 
         if (!isInQuotes) argCounter++;
