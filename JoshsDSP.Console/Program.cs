@@ -118,23 +118,30 @@ while (IsRunning)
         case "listen":
             {
                 if (cmdArgs.Length < 3)
+                {
                     SysConsole.WriteLine("'listen' requires a valid DSP and a path.");
-                else
-                    switch (cmdArgs[1])
+                    break;
+                }
+
+                BaseDSP? dsp = null;
+
+                switch (cmdArgs[1])
                     {
                         case "TestDSP":
-                            {
-                                if (!GlobalDSP.ListenFile(getRemainderFrom(cmdArgs, 2), new TestDSP()))
-                                    SysConsole.WriteLine("Failed to load file.");
-                                break;
-                            }
+                        {
+                            dsp = new TestDSP();
+                            break;
+                        }
                         default:
-                            {
-                                SysConsole.WriteLine($"'{cmdArgs[1]}' is not a valid DSP.");
-                                break;
-                            }
+                        {
+                            SysConsole.WriteLine($"'{cmdArgs[1]}' is not a valid DSP.");
+                            break;
+                        }
                     }
-                
+
+                if (dsp is not null && !GlobalDSP.ListenFile(getRemainderFrom(cmdArgs, 2), dsp))
+                    SysConsole.WriteLine("Failed to load file.");
+
                 break;
             }
         case "stop":
